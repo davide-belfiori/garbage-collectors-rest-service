@@ -25,6 +25,7 @@ import it.unicam.ids.garbageCollectors.service.ServiceProdotto;
 
 @RestController
 @RequestMapping("/products")
+@CrossOrigin(origins = "*")
 public class GestoreProdotto {
 
 	@Autowired

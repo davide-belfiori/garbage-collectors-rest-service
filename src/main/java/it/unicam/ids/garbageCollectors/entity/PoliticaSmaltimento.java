@@ -7,6 +7,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -38,8 +39,11 @@ public class PoliticaSmaltimento {
 	})
 	private Componente componente;
 	
+	@OneToOne
+	@JoinColumn(name = "cat_id", referencedColumnName = "cat_id")
+	private CategoriaSmaltimento categoria;
+	
 	@Column(name = "descrizione")
-	@NotNull
 	private String descrizione;
 	
 	

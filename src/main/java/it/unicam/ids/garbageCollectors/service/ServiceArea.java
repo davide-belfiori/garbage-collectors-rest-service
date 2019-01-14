@@ -27,4 +27,16 @@ public class ServiceArea {
 	public List<PoliticaSmaltimento> ricerca(int areaId, String prodId) {
 		return pRepo.findByPolIdProdIdAndPolIdAreaId(prodId, areaId);
 	}
+
+	public List<AreaGeografica> getListaAree() {
+		return repo.findAll();
+	}
+
+	public AreaGeografica getAreaLike(String name) {
+		return repo.findByNomeStartingWith(name);
+	}
+
+	public AreaGeografica findAreaByNome(String nomeArea) {
+		return repo.findByNome(nomeArea);
+	}
 }

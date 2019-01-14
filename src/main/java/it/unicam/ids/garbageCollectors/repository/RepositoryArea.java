@@ -8,4 +8,7 @@ import it.unicam.ids.garbageCollectors.entity.AreaGeografica;
 @Repository
 public interface RepositoryArea extends JpaRepository<AreaGeografica, Integer> {
 
+	public AreaGeografica findByNomeStartingWith(String s);
+
+	public AreaGeografica findByNome(String nomeArea);
 }
