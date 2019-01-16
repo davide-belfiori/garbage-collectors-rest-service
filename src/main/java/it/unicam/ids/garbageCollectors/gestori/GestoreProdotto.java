@@ -44,13 +44,14 @@ public class GestoreProdotto {
 	/* restituisce il prodotto con un certo ID */
 	
 	@GetMapping("/{prodId}")
-	public Prodotto getProdottoById(@PathVariable("prodId") String prodId) throws ProductNotFoundException {
-		
-		Prodotto prod = service.getProdotto(prodId);
-		if(prod == null)
-			throw new ProductNotFoundException(prodId);
-		
-		return prod;
+	public Prodotto getProdottoById(@PathVariable("prodId") String prodId) throws ProductNotFoundException {	
+		System.out.println("richiesta");
+		return service.getProdotto(prodId);
+	}
+	
+	@GetMapping("/esiste/{prodId}")
+	public boolean esisteProdotto(@PathVariable("prodId") String prodId) {
+		return service.esisteProdotto(prodId);
 	}
 	
 	/* restituisce la lista di tutti i prodotti */

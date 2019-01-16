@@ -52,4 +52,8 @@ public class ServiceProdotto {
 		
 		return repo.save(prodotto);
 	}
+
+	public boolean esisteProdotto(String prodId) {
+		return repo.existsById(prodId);
+	}
 }

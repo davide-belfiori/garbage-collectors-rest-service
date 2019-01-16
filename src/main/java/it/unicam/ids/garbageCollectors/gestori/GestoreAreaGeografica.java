@@ -59,8 +59,6 @@ public class GestoreAreaGeografica {
 										 @PathVariable("prodId") String prodId) 
 												 throws AreaNotFoundException {
 		
-		System.out.println("ricerca");
-		
 		AreaGeografica area = service.findAreaByNome(nomeArea);
 		if(area == null)
 			throw new AreaNotFoundException(nomeArea);
