@@ -5,8 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +25,6 @@ import it.unicam.ids.garbageCollectors.service.ServiceProdotto;
 
 @RestController
 @RequestMapping("/products")
-@CrossOrigin(origins = "*")
 public class GestoreProdotto {
 
 	@Autowired
@@ -33,6 +32,7 @@ public class GestoreProdotto {
 	
 	/* restituisce la lista dei componenti di un certo prodotto */
 	
+	@PreAuthorize(value = "hasAuthority('AUTORITA')")
 	@GetMapping("/{prodId}/components")
 	public List<Componente> getlistaComponenti(@PathVariable("prodId") String prodId) throws ProductNotFoundException {
 		List<Componente> lista = service.getComponenti(prodId);
@@ -42,15 +42,15 @@ public class GestoreProdotto {
 	}
 
 	/* restituisce il prodotto con un certo ID */
-	
+	@PreAuthorize(value = "hasAuthority('REGISTRATO')")
 	@GetMapping("/{prodId}")
 	public Prodotto getProdottoById(@PathVariable("prodId") String prodId) throws ProductNotFoundException {	
-		System.out.println("richiesta");
 		return service.getProdotto(prodId);
 	}
 	
+	
 	@GetMapping("/esiste/{prodId}")
-	public boolean esisteProdotto(@PathVariable("prodId") String prodId) {
+	public boolean esisteProdotto(@PathVariable("prodId") String prodId) {		
 		return service.esisteProdotto(prodId);
 	}
 	
@@ -63,6 +63,7 @@ public class GestoreProdotto {
 	
 	/* salva un nuovo prodotto */
 	
+	@PreAuthorize(value = "hasAuthority('AUTORITA')")
 	@PostMapping
 	public Prodotto addProduct(@Valid @RequestBody Prodotto product, BindingResult bindingResult) 
 			throws BindingExcetion, DuplicatedProductException {

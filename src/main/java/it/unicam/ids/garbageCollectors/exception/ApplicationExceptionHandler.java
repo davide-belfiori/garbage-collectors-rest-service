@@ -28,4 +28,14 @@ public class ApplicationExceptionHandler {
 	ResponseEntity<String> duplicatedProductHandler(DuplicatedProductException ex) {
 		return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
 	}
+	
+	@ExceptionHandler(BarcodeFormatException.class)
+	ResponseEntity<String> barcodeFormatHandler(BarcodeFormatException ex) {
+		return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+	}
+	
+	@ExceptionHandler(NumberFormatException.class)
+	ResponseEntity<?> barcodeFormatHandler(NumberFormatException ex) {
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
 }

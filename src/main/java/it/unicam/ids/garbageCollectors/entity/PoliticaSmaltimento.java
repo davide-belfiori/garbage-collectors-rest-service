@@ -32,7 +32,7 @@ public class PoliticaSmaltimento {
 	
 	@ManyToOne
 	@JoinColumns({
-		@JoinColumn(name = "pol_prod_id", referencedColumnName = "prod_id"
+		@JoinColumn(name = "pol_prod_id", referencedColumnName = "prodotto_prod_id"
 					, insertable = false, updatable = false),
 		@JoinColumn(name = "pol_comp_id", referencedColumnName = "comp_id"
 					, insertable = false, updatable = false),

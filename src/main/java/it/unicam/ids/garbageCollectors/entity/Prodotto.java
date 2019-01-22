@@ -24,7 +24,6 @@ public class Prodotto {
 
 	@Id
 	@Column(name = "prod_id")
-	//@JsonIgnore
 	private String prodId;
 	
 	@Column(name = "nome_prodotto")
@@ -33,7 +32,7 @@ public class Prodotto {
 	
 	@OneToMany(cascade = CascadeType.ALL, 
 			   orphanRemoval = true)
-	@JoinColumn(name = "prod_id", referencedColumnName = "prod_id")
+	@JoinColumn(name = "prodotto_prod_id", referencedColumnName = "prod_id")
 	@JsonManagedReference
 	private List<Componente> componenti = new ArrayList<>();
 
