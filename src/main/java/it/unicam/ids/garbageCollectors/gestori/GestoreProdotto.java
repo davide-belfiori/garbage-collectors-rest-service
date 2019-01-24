@@ -42,7 +42,6 @@ public class GestoreProdotto {
 	}
 
 	/* restituisce il prodotto con un certo ID */
-	@PreAuthorize(value = "hasAuthority('REGISTRATO')")
 	@GetMapping("/{prodId}")
 	public Prodotto getProdottoById(@PathVariable("prodId") String prodId) throws ProductNotFoundException {	
 		return service.getProdotto(prodId);
