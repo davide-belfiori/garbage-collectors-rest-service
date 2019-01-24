@@ -19,12 +19,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
+			.antMatchers("/h2/**").permitAll()
 	        .antMatchers(HttpMethod.GET, "/area-geografica/{\\d+}/ricerca/{\\d+}").permitAll()
 	        .antMatchers(HttpMethod.GET, "/products/{\\d+}").permitAll()
-	        .antMatchers(HttpMethod.POST, "/products").permitAll()
 	        .antMatchers("/**").authenticated()
-	        .and()
-	        .httpBasic().disable();
+	        .and().headers().frameOptions().sameOrigin();
 	} 
 
 	@Override
