@@ -33,10 +33,10 @@ public class ServiceArea {
 	}
 
 	public AreaGeografica getAreaLike(String name) {
-		return repo.findByNomeStartingWith(name);
+		return repo.findByNomeStartingWith(name.toUpperCase());
 	}
 
 	public AreaGeografica findAreaByNome(String nomeArea) {
-		return repo.findByNome(nomeArea);
+		return repo.findByNome(nomeArea.toUpperCase());
 	}
 }

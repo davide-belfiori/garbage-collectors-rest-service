@@ -11,7 +11,7 @@ public class AreaNotFoundException extends Exception {
 	}
 
 	public AreaNotFoundException(String name) {
-		this.nomeArea = name;
+		this.nomeArea = name.toUpperCase();
 	}
 
 	@Override
