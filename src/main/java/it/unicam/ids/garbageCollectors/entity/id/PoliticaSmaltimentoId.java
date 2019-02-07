@@ -1,4 +1,4 @@
-package it.unicam.ids.garbageCollectors.entity;
+package it.unicam.ids.garbageCollectors.entity.id;
 
 import java.io.Serializable;
 import java.util.Objects;

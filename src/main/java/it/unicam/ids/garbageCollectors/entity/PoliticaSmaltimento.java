@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import it.unicam.ids.garbageCollectors.entity.id.PoliticaSmaltimentoId;
 import lombok.Data;
 
 @Data
