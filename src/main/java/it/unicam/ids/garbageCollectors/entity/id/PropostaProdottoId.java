@@ -16,9 +16,6 @@ public class PropostaProdottoId implements Serializable{
 	@Column(name = "app_user_Id")
 	private int appUserId;
 	
-	@Column(name = "area_id")
-	private int areaId;
-	
 	@Column(name = "prod_id")
 	private String prodId;
 	

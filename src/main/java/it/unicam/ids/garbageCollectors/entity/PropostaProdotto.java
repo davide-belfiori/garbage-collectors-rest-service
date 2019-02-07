@@ -24,10 +24,6 @@ public class PropostaProdotto {
 	@ManyToOne
 	private AppUser user;
 	
-	@MapsId("areaId")
-	@ManyToOne
-	private AreaGeografica area;
-	
 	@Column(name = "nome_prodotto")
 	@NotNull
 	private String nomeProdotto;
