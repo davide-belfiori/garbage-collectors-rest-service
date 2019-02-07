@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import it.unicam.ids.garbageCollectors.entity.AreaGeografica;
 import it.unicam.ids.garbageCollectors.entity.PoliticaSmaltimento;
+import it.unicam.ids.garbageCollectors.exception.AreaNotFoundException;
 import it.unicam.ids.garbageCollectors.repository.RepositoryArea;
 import it.unicam.ids.garbageCollectors.repository.RepositoryPolitiche;
 
@@ -15,28 +16,24 @@ import it.unicam.ids.garbageCollectors.repository.RepositoryPolitiche;
 public class ServiceArea {
 
 	@Autowired
-	private RepositoryArea repo;
+	private RepositoryArea repositoryArea;
 	
-	@Autowired
-	private RepositoryPolitiche pRepo;
-	
-	public Optional<AreaGeografica> getAreaById(int areaId) {
-		return repo.findById(areaId);
+	public AreaGeografica getAreaById(int areaId) throws AreaNotFoundException {
+		Optional<AreaGeografica> result = repositoryArea.findById(areaId);
+		if(result.isPresent())
+			return result.get();
+		throw new AreaNotFoundException(areaId);
 	}
 	
-	public List<PoliticaSmaltimento> ricerca(int areaId, String prodId) {
-		return pRepo.findByPolIdProdIdAndPolIdAreaId(prodId, areaId);
-	}
-
 	public List<AreaGeografica> getListaAree() {
-		return repo.findAll();
+		return repositoryArea.findAll();
 	}
 
-	public AreaGeografica getAreaLike(String name) {
-		return repo.findByNomeStartingWith(name.toUpperCase());
+	public List<AreaGeografica> getAreaLike(String name) {
+		return repositoryArea.findByNomeStartingWith(name.toUpperCase());
 	}
 
 	public AreaGeografica findAreaByNome(String nomeArea) {
-		return repo.findByNome(nomeArea.toUpperCase());
+		return repositoryArea.findByNome(nomeArea.toUpperCase());
 	}
 }

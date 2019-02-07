@@ -26,26 +26,19 @@ public class GestoreAreaGeografica {
 	
 	@GetMapping(value = "/{areaId}")
 	public AreaGeografica getAreaById(@PathVariable("areaId") int areaId) throws AreaNotFoundException, NumberFormatException {
-		
-		Optional<AreaGeografica> result = service.getAreaById(areaId);
-		if(result.isPresent())
-			return result.get();
-		
-		throw new AreaNotFoundException(areaId);		
+		return service.getAreaById(areaId);		
 	}
 	
-	/* restituisce l'area il quale nome inizia con la string specificata */
-	
+	/* restituisce l'area il quale nome inizia con la stringa specificata */
 	@GetMapping(value = "/like/{name}")
-	public AreaGeografica getAreaLike(@PathVariable("name") String name) throws AreaNotFoundException {		
-		AreaGeografica result = service.getAreaLike(name);
+	public List<AreaGeografica> getAreaLike(@PathVariable("name") String name) throws AreaNotFoundException {		
+		List<AreaGeografica> result = service.getAreaLike(name);
 		if(result == null)
 			throw new AreaNotFoundException(name);
 		return result;
 	}
 	
 	/* restituisce la lista delle aree geografiche esistenti */
-	
 	@GetMapping()
 	public List<AreaGeografica> getListaAree (){
 		return service.getListaAree();
