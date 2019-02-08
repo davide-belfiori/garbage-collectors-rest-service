@@ -24,8 +24,8 @@ public class ApplicationExceptionHandler {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
-	@ExceptionHandler(DuplicatedProductException.class)
-	ResponseEntity<String> duplicatedProductHandler(DuplicatedProductException ex) {
+	@ExceptionHandler({DuplicatedProductException.class, ProposalException.class})
+	ResponseEntity<String> duplicatedProductHandler(Exception ex) {
 		return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
 	}
 	
