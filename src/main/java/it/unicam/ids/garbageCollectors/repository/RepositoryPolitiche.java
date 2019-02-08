@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import it.unicam.ids.garbageCollectors.entity.PoliticaSmaltimento;
-import it.unicam.ids.garbageCollectors.entity.PoliticaSmaltimentoId;
+import it.unicam.ids.garbageCollectors.entity.id.PoliticaSmaltimentoId;
 
 public interface RepositoryPolitiche extends JpaRepository<PoliticaSmaltimento, PoliticaSmaltimentoId> {
 	

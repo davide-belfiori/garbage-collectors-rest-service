@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.unicam.ids.garbageCollectors.entity.Componente;
-import it.unicam.ids.garbageCollectors.entity.ComponenteId;
 import it.unicam.ids.garbageCollectors.entity.Prodotto;
+import it.unicam.ids.garbageCollectors.entity.id.ComponenteId;
 import it.unicam.ids.garbageCollectors.exception.DuplicatedProductException;
 import it.unicam.ids.garbageCollectors.exception.ProductNotFoundException;
 import it.unicam.ids.garbageCollectors.repository.RepositoryComponente;
@@ -21,7 +21,7 @@ import it.unicam.ids.garbageCollectors.repository.RepositoryProdotto;
 public class ServiceProdotto {
 
 	@Autowired
-	private RepositoryProdotto repo;
+	private RepositoryProdotto repositoryProdotto;
 	
 	@Autowired
 	private RepositoryComponente compRepo;
@@ -34,7 +34,7 @@ public class ServiceProdotto {
 	}
 
 	public Prodotto getProdotto(String prodId) throws ProductNotFoundException {
-		Optional<Prodotto> result = repo.findById(prodId);
+		Optional<Prodotto> result = repositoryProdotto.findById(prodId);
 		if(result.isPresent())
 			return result.get();
 		throw new ProductNotFoundException(prodId);
@@ -49,33 +49,26 @@ public class ServiceProdotto {
 	}
 
 	public List<Prodotto> findAll() {
-		return repo.findAll();
+		return repositoryProdotto.findAll();
 	}
 
 	@Transactional
 	public Prodotto salvaProdotto(@Valid Prodotto prodotto) throws DuplicatedProductException {
-		if(repo.existsById(prodotto.getProdId()))
+		if(repositoryProdotto.existsById(prodotto.getProdId()))
 			throw new DuplicatedProductException(prodotto.getProdId());
 		
 		Prodotto _prodotto = new Prodotto();
 		_prodotto.setNomeProdotto(prodotto.getNomeProdotto());
 		_prodotto.setProdId(prodotto.getProdId());
 		
-		repo.save(_prodotto);
+		repositoryProdotto.save(_prodotto);
 		
-		for(Componente comp : prodotto.getComponenti()) {
-			Componente _comp = new Componente();
-			_comp.setCompId(new ComponenteId());
-			_comp.getCompId().setProdId(_prodotto.getProdId());;
-			_comp.setProdotto(_prodotto);
-			_comp.setNomeComponente(comp.getNomeComponente());
-			compRepo.save(_comp);
-		}
+		//TODO: da rivedere
 		
-		return repo.findById(_prodotto.getProdId()).get();
+		return repositoryProdotto.findById(_prodotto.getProdId()).get();
 	}
 
 	public boolean esisteProdotto(String prodId) {
-		return repo.existsById(prodId);
+		return repositoryProdotto.existsById(prodId);
 	}
 }
