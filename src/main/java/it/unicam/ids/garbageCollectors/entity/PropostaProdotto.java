@@ -9,20 +9,24 @@ import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import it.unicam.ids.garbageCollectors.entity.id.PropostaProdottoId;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "proposta_prodotto")
 public class PropostaProdotto {
 	
+	public PropostaProdotto(PropostaProdottoId propostaProdottoId) {
+		this.propostaId = propostaProdottoId;
+	}
+
 	@EmbeddedId
 	private PropostaProdottoId propostaId;
-	
-	@MapsId("appUserId")
-	@ManyToOne
-	private AppUser user;
 	
 	@Column(name = "nome_prodotto")
 	@NotNull
