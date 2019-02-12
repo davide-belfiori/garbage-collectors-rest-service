@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.commons.io.IOUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
@@ -18,15 +19,18 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 @Configuration
+@Order(1)
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	
     @Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-			.antMatchers(HttpMethod.GET, "/area-geografica/**").permitAll()
-	        .antMatchers(HttpMethod.GET, "/area-geografica/{\\d+}/ricerca/{\\d+}").permitAll()
-	        .antMatchers(HttpMethod.GET, "/products/{\\d+}").permitAll()
+		http
+			.antMatcher("/api/**")
+			.authorizeRequests()
+			.antMatchers(HttpMethod.GET, "/api/area-geografica/**").permitAll()
+	        .antMatchers(HttpMethod.GET, "/api/area-geografica/{\\d+}/ricerca/{\\d+}").permitAll()
+	        .antMatchers(HttpMethod.GET, "/api/products/{\\d+}").permitAll()
 	        .antMatchers("/**").authenticated();
 	} 
 
