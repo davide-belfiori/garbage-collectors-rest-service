@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import it.unicam.ids.garbageCollectors.entity.PropostaProdotto;
@@ -30,6 +31,7 @@ public class ServiceProposte {
 		PropostaProdotto _proposta = new PropostaProdotto(id);
 		_proposta.setNomeProdotto(nomeProdotto);
 		this.repositoryProposteProdotto.save(_proposta);
+		this.incementaProposte();
 		return repositoryProposteProdotto.getOne(id);
 	}
 
@@ -43,5 +45,13 @@ public class ServiceProposte {
 
 	public List<PropostaProdotto> getListaProposteProdotto() {
 		return repositoryProposteProdotto.findAllByOrderByCreated();
+	}
+
+	public long contaProposte() {
+		return repositoryProposteProdotto.conta();
+	}
+	
+	private void incementaProposte() {
+		repositoryProposteProdotto.incrementa();
 	}
 }

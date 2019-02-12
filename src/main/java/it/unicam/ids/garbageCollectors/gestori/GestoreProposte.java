@@ -43,7 +43,13 @@ public class GestoreProposte {
 	}
 	
 	@GetMapping
-	public List<PropostaProdotto> getListaProposteProdotto() {
+	public List<PropostaProdotto> getProposteProdotto() {
 		return serviceProposte.getListaProposteProdotto();
 	}
+	
+	@GetMapping("/count")
+	public long contaProposte() {
+		return serviceProposte.contaProposte();
+	}
+	
 }
