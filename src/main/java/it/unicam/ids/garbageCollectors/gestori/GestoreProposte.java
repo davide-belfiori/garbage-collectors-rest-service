@@ -1,34 +1,49 @@
 package it.unicam.ids.garbageCollectors.gestori;
 
 
-import javax.validation.Valid;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.unicam.ids.garbageCollectors.entity.PropostaProdotto;
 import it.unicam.ids.garbageCollectors.exception.BindingExcetion;
-import it.unicam.ids.garbageCollectors.exception.ProposalException;
 import it.unicam.ids.garbageCollectors.service.ServiceProposte;
-import it.unicam.ids.garbageCollectors.utils.RichiestaProposta;
 
 @RestController
-@RequestMapping("/proposte")
+@RequestMapping("/api/proposte")
 public class GestoreProposte {
 	
 	@Autowired
 	private ServiceProposte serviceProposte;
 	
 	@PostMapping
-	public PropostaProdotto salvaPropostaProdotto(
-			@Valid @RequestBody RichiestaProposta proposta, BindingResult result) throws BindingExcetion, ProposalException {
+	public PropostaProdotto salvaPropostaProdotto(HttpServletRequest req) throws BindingExcetion {
+
+		String nomeProdotto = req.getParameter("nomeProdotto");
+		String prodId = req.getParameter("prodId");
+		String nomeUtente = req.getParameter("nomeUtente");
 		
-		if(result.hasErrors())
-			throw new BindingExcetion();
-		return serviceProposte.salvaPropostaProdotto(proposta);
+		if(nomeProdotto != null && prodId != null && nomeUtente != null) {		
+			return serviceProposte.salvaPropostaProdotto(nomeProdotto, prodId, nomeUtente);
+		} throw new BindingExcetion();
+	}
+	
+	@GetMapping("/isEnable/{nomeUtente}/{prodId}")
+	public boolean propostaAbilitata(@PathVariable(name = "nomeUtente") String nomeUtente,
+									 @PathVariable(name = "prodId") String prodId) {
+		
+		return !serviceProposte.esisteProposta(prodId, nomeUtente);
+	}
+	
+	@GetMapping
+	public List<PropostaProdotto> getListaProposteProdotto() {
+		return serviceProposte.getListaProposteProdotto();
 	}
 }

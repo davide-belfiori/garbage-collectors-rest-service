@@ -1,44 +1,47 @@
 package it.unicam.ids.garbageCollectors.service;
 
-import java.util.Optional;
+import java.util.List;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.unicam.ids.garbageCollectors.entity.PropostaProdotto;
 import it.unicam.ids.garbageCollectors.entity.id.PropostaProdottoId;
-import it.unicam.ids.garbageCollectors.exception.ProposalException;
-import it.unicam.ids.garbageCollectors.repository.RepositoryPropposteProdotto;
+import it.unicam.ids.garbageCollectors.repository.RepositoryProposteProdotto;
 import it.unicam.ids.garbageCollectors.repository.RepositoryUtenti;
-import it.unicam.ids.garbageCollectors.utils.RichiestaProposta;
 
 @Service
 public class ServiceProposte {
 	
 	@Autowired
-	private RepositoryPropposteProdotto repositoryProposteProdotto;
+	private RepositoryProposteProdotto repositoryProposteProdotto;
 	
 	@Autowired
 	private RepositoryUtenti repositoryUtenti;
 	
 	@Transactional
-	public PropostaProdotto salvaPropostaProdotto(@Valid RichiestaProposta proposta) throws ProposalException {
+	public PropostaProdotto salvaPropostaProdotto(String nomeProdotto, String prodId, String nomeUtente) {
 		
-		PropostaProdottoId id = new PropostaProdottoId(proposta.prodId,
-				repositoryUtenti.findByUsername(proposta.nomeUtente));
+		PropostaProdottoId id = new PropostaProdottoId(prodId,
+				repositoryUtenti.findByUsername(nomeUtente));
 		
-		Optional<PropostaProdotto> result = repositoryProposteProdotto.findById(id);
+		PropostaProdotto _proposta = new PropostaProdotto(id);
+		_proposta.setNomeProdotto(nomeProdotto);
+		this.repositoryProposteProdotto.save(_proposta);
+		return repositoryProposteProdotto.getOne(id);
+	}
+
+	public boolean esisteProposta(String prodId, String nomeUtente) {
 		
-		/* controllo che la proposta non sia stata già effettuata dallo stesso utente */
-		if(result.isEmpty()) {
-			PropostaProdotto _proposta = new PropostaProdotto(id);
-			_proposta.setNomeProdotto(proposta.nomeProdotto);
-			this.repositoryProposteProdotto.save(_proposta);
-			return repositoryProposteProdotto.getOne(id);
-		}
-		throw new ProposalException(proposta.nomeUtente, proposta.prodId);
+		PropostaProdottoId id = new PropostaProdottoId(prodId,
+				repositoryUtenti.findByUsername(nomeUtente));
+		
+		return repositoryProposteProdotto.existsById(id);
+	}
+
+	public List<PropostaProdotto> getListaProposteProdotto() {
+		return repositoryProposteProdotto.findAllByOrderByCreated();
 	}
 }
