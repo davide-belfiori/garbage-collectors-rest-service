@@ -24,7 +24,7 @@ import it.unicam.ids.garbageCollectors.service.ServiceProdotto;
 /* controller dei Prodotti */
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/products")
 public class GestoreProdotto {
 
 	@Autowired

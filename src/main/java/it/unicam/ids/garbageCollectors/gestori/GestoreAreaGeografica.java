@@ -16,7 +16,7 @@ import it.unicam.ids.garbageCollectors.exception.BarcodeFormatException;
 import it.unicam.ids.garbageCollectors.service.ServiceArea;
 
 @RestController
-@RequestMapping(value = "/area-geografica")
+@RequestMapping(value = "/api/area-geografica")
 public class GestoreAreaGeografica {
 	
 	@Autowired
