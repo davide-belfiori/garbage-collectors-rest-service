@@ -7,5 +7,4 @@ import it.unicam.ids.garbageCollectors.entity.AppUser;
 public interface RepositoryUtenti extends JpaRepository<AppUser, Integer> {
 
 	AppUser findByUsername(String nomeUtente);
-
 }

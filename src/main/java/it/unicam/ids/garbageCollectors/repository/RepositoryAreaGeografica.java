@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import it.unicam.ids.garbageCollectors.entity.AreaGeografica;
 
 @Repository
-public interface RepositoryArea extends JpaRepository<AreaGeografica, Integer> {
+public interface RepositoryAreaGeografica extends JpaRepository<AreaGeografica, Integer> {
 
 	public List<AreaGeografica> findByNomeStartingWith(String s);
 

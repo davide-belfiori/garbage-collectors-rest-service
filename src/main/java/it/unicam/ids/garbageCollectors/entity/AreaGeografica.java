@@ -53,7 +53,4 @@ public class AreaGeografica {
 		return toReturn;
 	}
 
-	
-	//private List<String> listaProdBloccati;
-
 }

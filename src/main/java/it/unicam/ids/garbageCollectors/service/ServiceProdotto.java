@@ -22,9 +22,6 @@ public class ServiceProdotto {
 
 	@Autowired
 	private RepositoryProdotto repositoryProdotto;
-	
-	@Autowired
-	private RepositoryComponente compRepo;
 
 	public List<Componente> getComponenti(String prodId) throws ProductNotFoundException {
 		Prodotto prod = getProdotto(prodId);
@@ -52,23 +49,23 @@ public class ServiceProdotto {
 		return repositoryProdotto.findAll();
 	}
 
-	@Transactional
-	public Prodotto salvaProdotto(@Valid Prodotto prodotto) throws DuplicatedProductException {
-		if(repositoryProdotto.existsById(prodotto.getProdId()))
-			throw new DuplicatedProductException(prodotto.getProdId());
-		
-		Prodotto _prodotto = new Prodotto();
-		_prodotto.setNomeProdotto(prodotto.getNomeProdotto());
-		_prodotto.setProdId(prodotto.getProdId());
-		
-		repositoryProdotto.save(_prodotto);
-		
-		//TODO: da rivedere
-		
-		return repositoryProdotto.findById(_prodotto.getProdId()).get();
-	}
-
 	public boolean esisteProdotto(String prodId) {
 		return repositoryProdotto.existsById(prodId);
+	}
+
+	@Transactional
+	public Prodotto salvaProdotto(String nomeProdotto, String prodId) throws DuplicatedProductException {
+		if(repositoryProdotto.existsById(prodId))
+			throw new DuplicatedProductException(prodId);
+		
+		Prodotto _prodotto = new Prodotto();
+		_prodotto.setNomeProdotto(nomeProdotto);
+		_prodotto.setProdId(prodId);
+		
+		return repositoryProdotto.save(_prodotto);
+	}
+
+	public long contaProdotti() {
+		return repositoryProdotto.count();
 	}
 }

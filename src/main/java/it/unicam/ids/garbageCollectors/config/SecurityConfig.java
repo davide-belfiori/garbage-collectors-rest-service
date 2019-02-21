@@ -25,16 +25,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private boolean isH2Enable() {
 		return Arrays.asList(env.getActiveProfiles()).contains("h2");
 	}
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http.antMatcher("/h2-console/**");
 		if(isH2Enable()) {
-			http.antMatcher("/h2/**")
-				.httpBasic().and()
+			http.httpBasic().and()
 				.authorizeRequests()
-				.antMatchers("/h2/**").hasAnyRole("ADMIN")
+				.antMatchers("/h2-console/**").hasAnyRole("ADMIN")
 				.and().formLogin();
-			http.headers().frameOptions().sameOrigin();
+			http.headers().frameOptions().disable();
 			http.csrf().disable();
 		}
 	}
@@ -48,5 +48,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.roles("ADMIN");
 		}
 	}
-	
+
 }

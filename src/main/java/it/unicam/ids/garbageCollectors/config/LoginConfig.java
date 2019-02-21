@@ -20,6 +20,7 @@ public class LoginConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http.antMatcher("/login");
 		if(isH2Enable())
 			http.formLogin();
 	}

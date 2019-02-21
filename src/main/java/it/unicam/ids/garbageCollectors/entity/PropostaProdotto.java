@@ -10,6 +10,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import it.unicam.ids.garbageCollectors.entity.id.PropostaProdottoId;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,5 +36,6 @@ public class PropostaProdotto {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created")
 	@NotNull
+	@JsonIgnore
 	private Date created = new Date();
 }

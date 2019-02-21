@@ -17,6 +17,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Entity
@@ -27,6 +29,7 @@ public class AppUser implements Serializable{
 	@Id
 	@Column(name = "appUser_Id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonIgnore
 	private int appUserId;
 	
 	@Column(name = "appUser_name")
@@ -36,6 +39,7 @@ public class AppUser implements Serializable{
 	@Column(name = "appUser_password")
 	@NotNull
 	@Length(max = 60)
+	@JsonIgnore
 	private String appUserPassword;
 	
 	@ManyToMany
@@ -44,6 +48,7 @@ public class AppUser implements Serializable{
 		       		referencedColumnName = "appUser_id"),
 	           inverseJoinColumns = @JoinColumn(name = "role_id", 
 	           		referencedColumnName = "role_id"))
+	@JsonIgnore
 	private Set<Role> roles;
 	
 	@ManyToOne

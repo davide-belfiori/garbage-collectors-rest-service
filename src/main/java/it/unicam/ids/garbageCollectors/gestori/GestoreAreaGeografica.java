@@ -1,7 +1,6 @@
 package it.unicam.ids.garbageCollectors.gestori;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,35 +50,12 @@ public class GestoreAreaGeografica {
 	@GetMapping(value = "/{nomeArea}/ricerca/{prodId}")
 	public List<PoliticaSmaltimento> ricerca(@PathVariable("nomeArea") String nomeArea,
 										 @PathVariable("prodId") String prodId) 
-												 throws AreaNotFoundException, BarcodeFormatException {
-		
-/*		if(!checkProdId(prodId)) {
-			throw new BarcodeFormatException(prodId);
-		}*/
+												 throws AreaNotFoundException {
 		
 		AreaGeografica area = service.findAreaByNome(nomeArea);
 		if(area == null)
 			throw new AreaNotFoundException(nomeArea);
 		
 		return area.getListaPolitiche(prodId);
-	}
-
-	private boolean checkProdId (String prodId) throws NumberFormatException {
-		
-		int somma = 0;
-		for (int i = 0; i < 12; i++) {
-			try {
-				if((i + 1) % 2 == 0)
-					somma = somma + (Integer.parseInt((String) prodId.subSequence(i, i+1)) * 3);
-				else
-					somma = somma + Integer.parseInt((String) prodId.subSequence(i, i+1));
-			} catch (NumberFormatException e) {
-				return false;
-			}
-		}		
-		if((somma + Integer.parseInt((String) prodId.subSequence(12, 13))) % 10 == 0) {
-			return true;
-		} else 
-			return false;
 	}
 }

@@ -5,13 +5,13 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import it.unicam.ids.garbageCollectors.entity.PropostaProdotto;
 import it.unicam.ids.garbageCollectors.entity.id.PropostaProdottoId;
 import it.unicam.ids.garbageCollectors.repository.RepositoryProposteProdotto;
 import it.unicam.ids.garbageCollectors.repository.RepositoryUtenti;
+import it.unicam.ids.garbageCollectors.utils.GruppoProposteProdotto;
 
 @Service
 public class ServiceProposte {
@@ -42,16 +42,34 @@ public class ServiceProposte {
 		
 		return repositoryProposteProdotto.existsById(id);
 	}
-
-	public List<PropostaProdotto> getListaProposteProdotto() {
-		return repositoryProposteProdotto.findAllByOrderByCreated();
+	
+	public List<PropostaProdotto> getProposteProdotto(String prodId) {
+		return repositoryProposteProdotto.findByPropostaIdProdIdOrderByCreated(prodId);
 	}
-
+	
+	public List<GruppoProposteProdotto> getGruppiProposteProdotto() {
+		return repositoryProposteProdotto.raggruppaProposteProdotto();
+	}
+	
+	public void scartaPropostaProdotto(String prodId, String nomeUtente) {
+		
+		PropostaProdottoId id = new PropostaProdottoId(prodId,
+				repositoryUtenti.findByUsername(nomeUtente));
+		
+		repositoryProposteProdotto.deleteById(id);
+	}
+	
+	/* Contatore Proposte */
+	
 	public long contaProposte() {
 		return repositoryProposteProdotto.conta();
 	}
 	
 	private void incementaProposte() {
 		repositoryProposteProdotto.incrementa();
+	}
+
+	public void scartaTutteByProdId(String prodId) {
+		repositoryProposteProdotto.deleteAllByPropostaIdProdId(prodId);
 	}
 }
