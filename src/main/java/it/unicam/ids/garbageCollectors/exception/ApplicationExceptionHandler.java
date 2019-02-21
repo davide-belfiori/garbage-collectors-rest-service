@@ -19,7 +19,7 @@ public class ApplicationExceptionHandler {
 		return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
 	}
 	
-	@ExceptionHandler(BindingExcetion.class)
+	@ExceptionHandler(BindingException.class)
 	ResponseEntity<?> bindingExceptionHandler() {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
@@ -37,5 +37,10 @@ public class ApplicationExceptionHandler {
 	@ExceptionHandler(NumberFormatException.class)
 	ResponseEntity<?> barcodeFormatHandler(NumberFormatException ex) {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(UnknowException.class)
+	ResponseEntity<?> unknowErrorHandler(UnknowException ex) {
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
